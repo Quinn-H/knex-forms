@@ -12,7 +12,10 @@ module.exports = server
 
 // Middleware
 
-server.engine('hbs', hbs({extname: 'hbs'}))
+server.engine('hbs', hbs({
+  extname: 'hbs',
+  defaultLayout: 'main.hbs'
+}))
 server.set('view engine', 'hbs')
 server.set('views', path.join(__dirname, 'views'))
 server.use(bodyParser.urlencoded({ extended: true }))
@@ -24,3 +27,5 @@ server.get('/user-new', index.newUser)
 server.post('/user-new', index.addUser)
 server.get('/user/:id', index.getUser)
 server.post('/user/:id', index.updateUser)
+server.post('/user/:id/delete/confirm', index.confirm)
+server.post('/user/:id/delete', index.deleteUser)

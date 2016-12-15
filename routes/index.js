@@ -7,7 +7,9 @@ module.exports = {
   newUser:newUser,
   addUser:addUser,
   getUser: getUser,
-  updateUser: updateUser
+  updateUser: updateUser,
+  confirm: confirm,
+  deleteUser: deleteUser
 }
 
 function get (req, res) {
@@ -57,6 +59,29 @@ function updateUser (req, res) {
   }
   db.updateUser(id,user)
   .then( user => {
+    res.redirect('/')
+  })
+  .catch(function (err) {
+    res.status(500).send('DATABASE ERROR: ' + err.message)
+  })
+}
+
+function confirm (req, res) {
+  var id = req.params.id
+  db.getUser(id)
+  .then( user => {
+    res.render('confirm', user)
+  })
+  .catch(function (err) {
+    res.status(500).send('DATABASE ERROR: ' + err.message)
+  })
+}
+
+
+function deleteUser (req, res) {
+  var id = req.params.id
+  db.deleteUser(id)
+  .then( () => {
     res.redirect('/')
   })
   .catch(function (err) {
